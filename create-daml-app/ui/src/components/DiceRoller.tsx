@@ -1,6 +1,7 @@
 import React from 'react'
 import { Form, Button } from 'semantic-ui-react';
-import { userContext, getInventoryKeyFor } from './App';
+import { userContext } from './App';
+import { getInventoryKeyFor } from './Util';
 import { Catan } from '@daml.js/create-daml-app';
 import { QueryResult } from '@daml/ledger';
 

@@ -1,7 +1,8 @@
 import React from 'react'
 import { List, ListItem, Icon } from 'semantic-ui-react';
 import { Catan } from '@daml.js/create-daml-app';
-import { userContext, resourceToIcon } from './App';
+import { userContext } from './App';
+import { resourceToIcon } from './Util';
 
 const MessageList: React.FC = () => {
   const inventoryResult = userContext.useStreamQueries(Catan.Inventory);

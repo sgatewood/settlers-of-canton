@@ -1,6 +1,6 @@
 import React from 'react'
 import { List, ListItem, Icon, Container } from 'semantic-ui-react';
-import { resourceToIcon } from './App';
+import { resourceToIcon } from './Util';
 
 type Props = {
     diceValues: string[]

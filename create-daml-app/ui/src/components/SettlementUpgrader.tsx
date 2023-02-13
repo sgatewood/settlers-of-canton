@@ -1,6 +1,7 @@
 import React from 'react'
 import { Form, Button } from 'semantic-ui-react';
-import { userContext, getInventoryMap } from './App';
+import { userContext } from './App';
+import { getInventoryMap } from './Util';
 import { Catan } from '@daml.js/create-daml-app';
 
 const upgradeRequirements = new Map<string, number>()
