@@ -1,30 +1,23 @@
--- Copyright (c) 2022 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved.
--- SPDX-License-Identifier: Apache-2.0
-
 module User where
 
--- MAIN_TEMPLATE_BEGIN
 template User with
     username: Party
-    following: [Party] -- I follow a list of Partys
+    following: [Party]
   where
-    signatory username -- Who can create/archive? ${username}
-    observer following -- Who can see this? ${following}
--- MAIN_TEMPLATE_END
+    signatory username
+    observer following
 
     key username: Party
     maintainer key
 
-    -- FOLLOW_BEGIN
     nonconsuming choice Follow: ContractId User with
         userToFollow: Party
-      controller username -- hoos allowed to do this? ${username}
+      controller username
       do
         assertMsg "You cannot follow yourself" (userToFollow /= username)
         assertMsg "You cannot follow the same user twice" (notElem userToFollow following)
         archive self
         create this with following = userToFollow :: following
-    -- FOLLOW_END
     nonconsuming choice SendMessage: ContractId Message with
         sender: Party
         content: Text
@@ -33,7 +26,6 @@ template User with
         assertMsg "Designated user must follow you back to send a message" (elem sender following)
         create Message with sender, receiver = username, content
 
--- ALIAS_BEGIN
 template Alias with
     username: Party
     alias: Text
@@ -51,7 +43,6 @@ template Alias with
       do
         archive self
         create this with alias = newAlias
--- ALIAS_END
 
 template Message with
     sender: Party
