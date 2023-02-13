@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import React, { useMemo } from 'react';
-import { Container, Grid, Header, Icon, Segment, Divider } from 'semantic-ui-react';
+import { Container, Grid, Header, Segment, Divider } from 'semantic-ui-react';
 import { Party } from '@daml/types';
 import { User } from '@daml.js/create-daml-app';
 import { publicContext, userContext } from './App';
@@ -16,19 +16,8 @@ import ResourceTrader from './ResourceTrader';
 // USERS_BEGIN
 const MainView: React.FC = () => {
   const username = userContext.useParty();
-  const myUserResult = userContext.useStreamFetchByKeys(User.User, () => [username], [username]);
   const aliases = publicContext.useStreamQueries(User.Alias, () => [], []);
-  const myUser = myUserResult.contracts[0]?.payload;
-  const allUsers = userContext.useStreamQueries(User.User).contracts;
 // USERS_END
-
-  // Sorted list of users that are following the current user
-  const followers = useMemo(() =>
-    allUsers
-    .map(user => user.payload)
-    .filter(user => user.username !== username)
-    .sort((x, y) => x.username.localeCompare(y.username)),
-    [allUsers, username]);
 
   // Map to translate party identifiers to aliases.
   const partyToAlias = useMemo(() =>
@@ -36,20 +25,6 @@ const MainView: React.FC = () => {
     [aliases]
   );
   const myUserName = aliases.loading ? 'loading ...' : partyToAlias.get(username) ?? username;
-
-  // FOLLOW_BEGIN
-  const ledger = userContext.useLedger();
-
-  const follow = async (userToFollow: Party): Promise<boolean> => {
-    try {
-      await ledger.exerciseByKey(User.User.Follow, username, {userToFollow});
-      return true;
-    } catch (error) {
-      alert(`Unknown error:\n${JSON.stringify(error)}`);
-      return false;
-    }
-  }
-  // FOLLOW_END
 
   return (
     <Container>

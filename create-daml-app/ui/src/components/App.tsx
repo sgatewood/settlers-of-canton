@@ -44,7 +44,7 @@ export function getInventoryKeyFor(player: string, resourceName: string) {
 
 export function getInventoryMap(queryResult: QueryResult<Catan.Inventory, Catan.Inventory.Key, string>): Map<string, number>{
   const result: Map<string, number> = new Map()
-  queryResult.contracts.map(inventory => {
+  queryResult.contracts.forEach(inventory => {
       const {resourceName, number} = inventory.payload;
       result.set(resourceName, result.get(resourceName) ?? 0 + parseInt(number))
   })

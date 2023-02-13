@@ -60,7 +60,7 @@ const DiceRoller: React.FC = () => {
   const [lastRollDescription, setLastRollDescription] = React.useState("");
   const ledger = userContext.useLedger();
 
-  const submitMessage = async (event: React.FormEvent) => {
+  const rollDice = async (event: React.FormEvent) => {
     try {
       event.preventDefault();
       setIsSubmitting(true);
@@ -83,7 +83,7 @@ const DiceRoller: React.FC = () => {
   };
 
   return (
-    <Form onSubmit={submitMessage}>
+    <Form onSubmit={rollDice}>
       <strong>{lastRollDescription}</strong>
       <Button
         fluid

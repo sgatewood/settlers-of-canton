@@ -17,7 +17,6 @@ function canTradeSomething(inventory: Map<string, number>): boolean {
 
 const ResourceTrader: React.FC = () => {
   const sender = userContext.useParty();
-  const bankResult = userContext.useQuery(Catan.Bank)
   const inventoryResult = userContext.useStreamQueries(Catan.Inventory);
   const [isSubmitting, setIsSubmitting] = React.useState(false);
   const [giving, setGiving] = React.useState<string | undefined>()

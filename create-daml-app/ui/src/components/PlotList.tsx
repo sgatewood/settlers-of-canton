@@ -1,5 +1,5 @@
 import React from 'react'
-import { List, ListItem, Icon } from 'semantic-ui-react';
+import { List, ListItem } from 'semantic-ui-react';
 import { Catan } from '@daml.js/create-daml-app';
 import { userContext } from './App';
 import Plot from './Plot';
