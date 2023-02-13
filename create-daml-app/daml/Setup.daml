@@ -38,15 +38,6 @@ setupCatan bankUser alice bob = script do
   submit bob do
     exerciseCmd bankContract CreateInventories with player = bob
 
-  -- alicePlot <- submit alice do
-  --   exerciseCmd bankContract CreatePlot with player = alice, diceValues = [6,8,9], resourceNames = ["lumber", "brick", "wool"]
-
-  -- submit bob do
-  --   exerciseCmd bankContract CreatePlot with player = bob, diceValues = [6,8,9], resourceNames = ["lumber", "brick", "wool"]
-
-  -- submit bankUser do
-  --   exerciseCmd bankContract UpgradePlot with player = alice, plotId = alicePlot
-
 -- | Create a public party, then create three test users.
 setup : Script Parties
 setup = do
