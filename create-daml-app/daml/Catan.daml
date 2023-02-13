@@ -28,7 +28,7 @@ template Bank with
             bank = username
             player = player
             resourceName = resourceName
-            number = 30)
+            number = 1)
 
     nonconsuming choice CreatePlot: (ContractId Plot) with
           player: Party

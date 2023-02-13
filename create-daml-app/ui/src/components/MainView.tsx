@@ -11,6 +11,7 @@ import PartyListEdit from './PartyListEdit';
 import ResourceList from './ResourceList';
 import PlotList from './PlotList';
 import DiceRoller from './DiceRoller';
+import PlotDrawer from './PlotDrawer';
 
 // USERS_BEGIN
 const MainView: React.FC = () => {
@@ -86,6 +87,8 @@ const MainView: React.FC = () => {
               </Header>
               <Divider />
               <DiceRoller />
+              <Divider />
+              <PlotDrawer />
             </Segment>
           </Grid.Column>
         </Grid.Row>

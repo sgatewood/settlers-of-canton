@@ -2,7 +2,7 @@ import React from 'react'
 import { Form, Button } from 'semantic-ui-react';
 import { Party } from '@daml/types';
 import { User } from '@daml.js/create-daml-app';
-import { userContext } from './App';
+import { userContext, getInventoryKeyFor } from './App';
 import { Catan } from '@daml.js/create-daml-app';
 import { QueryResult } from '@daml/ledger';
 
@@ -17,11 +17,12 @@ interface Plot {
   weight: number
 }
 
+function getRandomDiceValue(): number {
+  return Math.floor(Math.random() * 6) + 1
+}
+
 function getRollValue(): number {
-  const rollValueA = Math.floor(Math.random() * 6) + 1;
-  const rollValueB = Math.floor(Math.random() * 6) + 1;
-  return 8
-  // return rollValueA + rollValueB;
+  return getRandomDiceValue() + getRandomDiceValue()
 }
 
 function getAwardsFor(rollValue: number, plots: Plot[]): Award[] {
@@ -41,13 +42,6 @@ function getAwardsFor(rollValue: number, plots: Plot[]): Award[] {
 
 function describeAward(award: Award): string {
   return `${award.number} x ${award.resourceName}`
-}
-
-function getInventoryKeyFor(player: string, resourceName: string) {
-  return {
-    _1: player,
-    _2: resourceName
-  }
 }
 
 function getPlotsFrom(queryResult: QueryResult<Catan.Plot, undefined, string>): Plot[] {

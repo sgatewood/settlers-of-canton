@@ -13,6 +13,9 @@ import DamlHub, {
 } from "@daml/hub-react";
 import Credentials from "../Credentials";
 import { authConfig } from "../config";
+import { QueryResult } from '@daml/ledger';
+import { Catan } from '@daml.js/create-daml-app';
+
 
 // Context for the party of the user.
 export const userContext = createLedgerContext();
@@ -31,6 +34,22 @@ resourceToIcon.set("brick", "block layout")
 resourceToIcon.set("wool", "cloudversify")
 resourceToIcon.set("grain", "food")
 resourceToIcon.set("ore", "fire")
+
+export function getInventoryKeyFor(player: string, resourceName: string) {
+  return {
+    _1: player,
+    _2: resourceName
+  }
+}
+
+export function getInventoryMap(queryResult: QueryResult<Catan.Inventory, Catan.Inventory.Key, string>): Map<String, number>{
+  const result: Map<String, number> = new Map()
+  queryResult.contracts.map(inventory => {
+      const {resourceName, number} = inventory.payload;
+      result.set(resourceName, result.get(resourceName) ?? 0 + parseInt(number))
+  })
+  return result
+}
 
 /**
  * React component for the entry point into the application.
