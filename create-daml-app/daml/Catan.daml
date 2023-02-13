@@ -53,7 +53,6 @@ template Bank with
           create Plot with 
               bank = username
               owner = player
-              everyone = players
               weight = 1
               diceValues = diceValues
               resourceNames = resourceNames
@@ -115,7 +114,6 @@ template Inventory with
 template Plot with
     bank: Party
     owner: Party
-    everyone: [Party]
     weight: Int
     diceValues: [Int]
     resourceNames: [Text]
@@ -123,7 +121,7 @@ template Plot with
 
   where
     signatory owner
-    observer everyone
+    observer bank, owner
 
     key (owner, index): (Party, Int)
     maintainer key._1
