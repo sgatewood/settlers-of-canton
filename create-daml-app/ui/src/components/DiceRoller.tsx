@@ -59,6 +59,7 @@ const DiceRoller: React.FC = () => {
   const sender = userContext.useParty();
   const plotsQueryResult = userContext.useStreamQueries(Catan.Plot);
   const [isSubmitting, setIsSubmitting] = React.useState(false);
+  const [lastRollDescription, setLastRollDescription] = React.useState("");
   const ledger = userContext.useLedger();
 
   const submitMessage = async (event: React.FormEvent) => {
@@ -69,7 +70,7 @@ const DiceRoller: React.FC = () => {
       const rollValue = getRollValue();
       const awards: Award[] = getAwardsFor(rollValue, getPlotsFrom(plotsQueryResult))
       const awardDescription = awards.length === 0 ? "nothing" : awards.map(describeAward)
-      alert(`Rolled ${rollValue} -- Got ${awardDescription}`)
+      setLastRollDescription(`Rolled ${rollValue} -- Got ${awardDescription}`)
       
       for (var i = 0; i < awards.length; i++) {
         const award = awards[i]
@@ -85,6 +86,7 @@ const DiceRoller: React.FC = () => {
 
   return (
     <Form onSubmit={submitMessage}>
+      <strong>{lastRollDescription}</strong>
       <Button
         fluid
         className='test-select-message-send-button'
