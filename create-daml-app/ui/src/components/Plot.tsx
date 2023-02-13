@@ -20,11 +20,14 @@ const Plot: React.FC<Props> = ({diceValues, resourceNames, weight, index}) => {
         )
     })
 
+    const weightStars = Array(weight).fill(
+        <Icon name="star outline" />
+    )
+
   return (
     <Container className="plot">
         <List>
-            <ListItem><strong>Number: {index}</strong></ListItem>
-            <ListItem><strong>Weight: {weight}</strong></ListItem>
+            <ListItem><u><h3>Settlement {index}</h3></u>{weightStars}</ListItem>
             {diceInfos}
         </List>
     </Container>
