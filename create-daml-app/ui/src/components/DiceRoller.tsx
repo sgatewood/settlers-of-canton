@@ -44,7 +44,7 @@ function describeAward(award: Award): string {
   return `${award.number} x ${award.resourceName}`
 }
 
-function getPlotsFrom(queryResult: QueryResult<Catan.Plot, undefined, string>): Plot[] {
+function getPlotsFrom(queryResult: QueryResult<Catan.Plot, Catan.Plot.Key, string>): Plot[] {
   return queryResult.contracts.map(plot => {
     const {diceValues, resourceNames, weight} = plot.payload;
     return {

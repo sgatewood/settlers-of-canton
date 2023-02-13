@@ -11,12 +11,12 @@ const PlotList: React.FC = () => {
   return (
     <List relaxed>
       {plotResult.contracts.map(plot => {
-        const {diceValues, resourceNames, weight} = plot.payload;
+        const {diceValues, resourceNames, weight, index} = plot.payload;
         return (
           <ListItem
             className='test-select-message-item'
             key={plot.contractId}>
-            <Plot diceValues={diceValues} resourceNames={resourceNames} weight={parseInt(weight)}></Plot>
+            <Plot diceValues={diceValues} resourceNames={resourceNames} weight={parseInt(weight)} index={parseInt(index)}></Plot>
           </ListItem>
         );
       })}

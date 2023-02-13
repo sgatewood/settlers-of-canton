@@ -6,12 +6,11 @@ import { Container, Grid, Header, Icon, Segment, Divider } from 'semantic-ui-rea
 import { Party } from '@daml/types';
 import { User } from '@daml.js/create-daml-app';
 import { publicContext, userContext } from './App';
-import UserList from './UserList';
-import PartyListEdit from './PartyListEdit';
 import ResourceList from './ResourceList';
 import PlotList from './PlotList';
 import DiceRoller from './DiceRoller';
-import PlotDrawer from './PlotDrawer';
+import PlotCreator from './PlotCreator';
+import SettlementUpgrader from './SettlementUpgrader';
 
 // USERS_BEGIN
 const MainView: React.FC = () => {
@@ -88,7 +87,9 @@ const MainView: React.FC = () => {
               <Divider />
               <DiceRoller />
               <Divider />
-              <PlotDrawer />
+              <PlotCreator />
+              <Divider />
+              <SettlementUpgrader />
             </Segment>
           </Grid.Column>
         </Grid.Row>

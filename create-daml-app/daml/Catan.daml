@@ -1,5 +1,12 @@
 module Catan where
 
+settlementRequirements: [Text] = [
+  "lumber",
+  "brick",
+  "wool",
+  "grain"
+  ]
+
 resourceTypes: [Text] = [
   "lumber",
   "brick",
@@ -34,9 +41,15 @@ template Bank with
           player: Party
           diceValues: [Int]
           resourceNames: [Text]
+          index: Int
         controller player
         do
           assertMsg "Player must be known by the bank" (elem player players)
+          forA settlementRequirements (
+            \resourceName -> do
+            (resourceId, resource) <- fetchByKey @Inventory (player, resourceName)
+            assertMsg ("Not enough " <> resourceName) (resource.number > 0)
+            exercise resourceId ApplyDelta with delta = -1)
           create Plot with 
               bank = username
               owner = player
@@ -44,13 +57,14 @@ template Bank with
               weight = 1
               diceValues = diceValues
               resourceNames = resourceNames
+              index = index
 
     nonconsuming choice UpgradePlot: (ContractId Inventory) with
           player: Party
-          plotId: ContractId Plot
+          plotNum: Int
         controller player
         do
-          plot <- fetch plotId
+          (plotId, plot) <- fetchByKey @Plot (player, plotNum)
           assertMsg "Player must be known by the bank" (elem player players)
           (grainId, grain) <- fetchByKey @Inventory (player, "grain")
           (oreId, ore) <- fetchByKey @Inventory (player, "ore")
@@ -105,13 +119,17 @@ template Plot with
     weight: Int
     diceValues: [Int]
     resourceNames: [Text]
+    index: Int
 
   where
-    signatory bank
+    signatory owner
     observer everyone
 
+    key (owner, index): (Party, Int)
+    maintainer key._1
+
     nonconsuming choice UpgradeWeight: (ContractId Plot) with
-      controller bank
+      controller owner
       do
         archive self
         create this with weight = weight + 1

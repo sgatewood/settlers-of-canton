@@ -50,10 +50,11 @@ function getRandomResourceNames(): string[] {
     ]
 }
 
-const PlotDrawer: React.FC = () => {
+const PlotCreator: React.FC = () => {
   const sender = userContext.useParty();
   const bankResult = userContext.useQuery(Catan.Bank)
   const inventoryResult = userContext.useStreamQueries(Catan.Inventory);
+  const plotResult = userContext.useStreamQueries(Catan.Plot);
   const [isSubmitting, setIsSubmitting] = React.useState(false);
   const ledger = userContext.useLedger();
 
@@ -66,13 +67,13 @@ const PlotDrawer: React.FC = () => {
       event.preventDefault();
       setIsSubmitting(true);
 
-      for (var i = 0; i < settlementRequirements.length; i++) {
-        const resourceName = settlementRequirements[i]
-        const inventoryKey = getInventoryKeyFor(sender, resourceName)
-        await ledger.exerciseByKey(Catan.Inventory.ApplyDelta, inventoryKey, {delta: "-1"});
-      }
       const bankUsername = bankResult.contracts[0].payload.username // race condition
-      await ledger.exerciseByKey(Catan.Bank.CreatePlot, bankUsername, {player: sender, diceValues: getRandomDiceValues(), resourceNames: getRandomResourceNames()})
+      const index = plotResult.contracts.length+1
+      await ledger.exerciseByKey(Catan.Bank.CreatePlot, bankUsername, {
+        player: sender, 
+        diceValues: getRandomDiceValues(), 
+        resourceNames: getRandomResourceNames(), 
+        index: index.toString() })
     } catch (error) {
       alert(`Could not create settlement:\n${JSON.stringify(error)}`);
     } finally {
@@ -94,4 +95,4 @@ const PlotDrawer: React.FC = () => {
   );
 };
 
-export default PlotDrawer;
+export default PlotCreator;

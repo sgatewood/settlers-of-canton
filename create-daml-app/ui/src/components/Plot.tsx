@@ -6,9 +6,10 @@ type Props = {
     diceValues: string[]
     resourceNames: string[]
     weight: number
+    index: number
 }
 
-const Plot: React.FC<Props> = ({diceValues, resourceNames, weight}) => {
+const Plot: React.FC<Props> = ({diceValues, resourceNames, weight, index}) => {
 
     const diceInfos = diceValues.map((e, i) => {
         const resourceName = resourceNames[i]
@@ -22,6 +23,7 @@ const Plot: React.FC<Props> = ({diceValues, resourceNames, weight}) => {
   return (
     <Container className="plot">
         <List>
+            <ListItem><strong>Number: {index}</strong></ListItem>
             <ListItem><strong>Weight: {weight}</strong></ListItem>
             {diceInfos}
         </List>
