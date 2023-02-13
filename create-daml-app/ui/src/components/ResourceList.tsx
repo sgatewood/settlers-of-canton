@@ -4,7 +4,7 @@ import { Catan } from '@daml.js/create-daml-app';
 import { userContext } from './App';
 import { resourceToIcon } from './Util';
 
-const MessageList: React.FC = () => {
+const ResourceList: React.FC = () => {
   const inventoryResult = userContext.useStreamQueries(Catan.Inventory);
 
   return (
@@ -23,4 +23,4 @@ const MessageList: React.FC = () => {
   );
 };
 
-export default MessageList;
+export default ResourceList;
