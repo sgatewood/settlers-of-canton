@@ -24,3 +24,12 @@ resourceToIcon.set("brick", "block layout")
 resourceToIcon.set("wool", "cloudversify")
 resourceToIcon.set("grain", "food")
 resourceToIcon.set("ore", "fire")
+
+
+export const resourceTypes = [
+  "lumber",
+  "brick",
+  "wool",
+  "grain",
+  "ore"
+]

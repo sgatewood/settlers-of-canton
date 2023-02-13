@@ -1,7 +1,7 @@
 import React from 'react'
 import { Form, Button } from 'semantic-ui-react';
 import { userContext } from './App';
-import { getInventoryMap } from './Util';
+import { getInventoryMap, resourceTypes } from './Util';
 import { Catan } from '@daml.js/create-daml-app';
 
 const settlementRequirements = [
@@ -9,14 +9,6 @@ const settlementRequirements = [
     "brick",
     "wool",
     "grain"
-]
-
-const allResourceTypes = [
-    "lumber",
-    "brick",
-    "wool",
-    "grain",
-    "ore"
 ]
 
 function canBuySettlement(inventory: Map<String, number>): boolean {
@@ -32,7 +24,7 @@ function getRandomDiceValue(): number {
 }
 
 function getRandomResource(): string {
-    return allResourceTypes[getRandInt(0, allResourceTypes.length)]
+    return resourceTypes[getRandInt(0, resourceTypes.length)]
 }
 
 function getRandomDiceValues(): string[] {

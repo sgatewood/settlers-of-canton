@@ -1,16 +1,8 @@
 import React from 'react'
 import { Form, Button } from 'semantic-ui-react';
 import { userContext } from './App';
-import { getInventoryKeyFor, getInventoryMap } from './Util';
+import { getInventoryKeyFor, getInventoryMap, resourceTypes } from './Util';
 import { Catan } from '@daml.js/create-daml-app';
-
-const resourceTypes = [
-    "lumber",
-    "brick",
-    "wool",
-    "grain",
-    "ore"
-]
 
 function canTradeSomething(inventory: Map<string, number>): boolean {
     return Array.from(inventory.values()).some(value => value >= 4)
