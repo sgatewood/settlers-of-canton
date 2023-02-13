@@ -94,11 +94,11 @@ template Inventory with
         create this with number = number + delta
 
     nonconsuming choice TradeFourForOneOf: (ContractId Inventory) with
-          destinationId: ContractId Inventory
+          destinationResource: Text
         controller player
         do
           assertMsg "Must have at least 4 to trade" (number >= 4)
-          destination <- fetch destinationId
+          (destinationId, destination) <- fetchByKey @Inventory (player, destinationResource)
           assertMsg "Player must be the same" (this.player == destination.player)
           assertMsg "Must trade for a different resource" (this.resourceName /= destination.resourceName)
           

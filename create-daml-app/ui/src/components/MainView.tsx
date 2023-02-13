@@ -11,6 +11,7 @@ import PlotList from './PlotList';
 import DiceRoller from './DiceRoller';
 import PlotCreator from './PlotCreator';
 import SettlementUpgrader from './SettlementUpgrader';
+import ResourceTrader from './ResourceTrader';
 
 // USERS_BEGIN
 const MainView: React.FC = () => {
@@ -90,6 +91,8 @@ const MainView: React.FC = () => {
               <PlotCreator />
               <Divider />
               <SettlementUpgrader />
+              <Divider />
+              <ResourceTrader />
             </Segment>
           </Grid.Column>
         </Grid.Row>

@@ -2,7 +2,6 @@ import React from 'react'
 import { Form, Button } from 'semantic-ui-react';
 import { userContext, getInventoryKeyFor, getInventoryMap } from './App';
 import { Catan } from '@daml.js/create-daml-app';
-import { ContractId } from '@daml/types';
 
 const upgradeRequirements = new Map<string, number>()
 upgradeRequirements.set("grain", 2)
@@ -32,18 +31,10 @@ const SettlementUpgrader: React.FC = () => {
     try {
       event.preventDefault();
       setIsSubmitting(true);
-
-      const upgradeRequirementsAsArray = Array.from(upgradeRequirements.entries())
-
-      for (var i = 0; i < upgradeRequirementsAsArray.length; i++) {
-        const [resourceName, requirement] = upgradeRequirementsAsArray[i]
-        const inventoryKey = getInventoryKeyFor(sender, resourceName)
-        await ledger.exerciseByKey(Catan.Inventory.ApplyDelta, inventoryKey, {delta: "-1"});
-      }
       const bankUsername = bankResult.contracts[0].payload.username // race condition
       await ledger.exerciseByKey(Catan.Bank.UpgradePlot, bankUsername, {player: sender, plotNum: plotToUpgrade ?? ""})
     } catch (error) {
-      alert(`Could not create settlement:\n${JSON.stringify(error)}`);
+      alert(`Could not upgrade settlement:\n${JSON.stringify(error)}`);
     } finally {
       setIsSubmitting(false);
     }
