@@ -60,14 +60,14 @@ const SettlementCreator: React.FC = () => {
 
 
   const inventoryMap = getInventoryMap(inventoryResult)
-  const canBuy = canBuySettlement(inventoryMap)
+  const canBuy = canBuySettlement(inventoryMap) && bankResult.contracts.length > 0
 
   const submitMessage = async (event: React.FormEvent) => {
     try {
       event.preventDefault();
       setIsSubmitting(true);
 
-      const bankUsername = bankResult.contracts[0].payload.username // race condition
+      const bankUsername = bankResult.contracts[0].payload.username
       const index = plotResult.contracts.length+1
       await ledger.exerciseByKey(Catan.Bank.CreatePlot, bankUsername, {
         player: sender, 

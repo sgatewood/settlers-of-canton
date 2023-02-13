@@ -25,13 +25,13 @@ const SettlementUpgrader: React.FC = () => {
   const ledger = userContext.useLedger();
 
   const inventoryMap = getInventoryMap(inventoryResult)
-  const canUpgrade = canUpgradeSettlement(inventoryMap)
+  const canUpgrade = canUpgradeSettlement(inventoryMap) && bankResult.contracts.length > 0
 
   const submitMessage = async (event: React.FormEvent) => {
     try {
       event.preventDefault();
       setIsSubmitting(true);
-      const bankUsername = bankResult.contracts[0].payload.username // race condition
+      const bankUsername = bankResult.contracts[0].payload.username 
       await ledger.exerciseByKey(Catan.Bank.UpgradePlot, bankUsername, {player: sender, plotNum: plotToUpgrade ?? ""})
     } catch (error) {
       alert(`Could not upgrade settlement:\n${JSON.stringify(error)}`);
