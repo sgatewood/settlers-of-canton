@@ -13,7 +13,7 @@ const MessageList: React.FC = () => {
         return (
           <ListItem
             className='test-select-message-item'
-            key={inventory.contractId}>
+            key={resourceName}>
             <Icon className="resource-icon" name={resourceToIcon.get(resourceName)} /><strong>{number} {resourceName}</strong>
           </ListItem>
         );

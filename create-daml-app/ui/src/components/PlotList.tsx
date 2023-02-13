@@ -22,7 +22,7 @@ const PlotList: React.FC = () => {
         return (
           <ListItem
             className='test-select-message-item'
-            key={plot.contractId}>
+            key={index}>
             <Plot diceValues={diceValues} resourceNames={resourceNames} weight={parseInt(weight)} index={parseInt(index)}></Plot>
           </ListItem>
         );
