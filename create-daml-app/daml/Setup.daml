@@ -24,7 +24,7 @@ data TestUser = TestUser with
 defaultParticipant : Optional ParticipantName
 defaultParticipant = None
 
-setupCatan : Party -> Party -> Party -> Script (ContractId Inventory)
+setupCatan : Party -> Party -> Party -> Script (ContractId Plot)
 setupCatan bankUser alice bob = script do
 
   bankContract <- submit bankUser do
@@ -32,20 +32,20 @@ setupCatan bankUser alice bob = script do
       username = bankUser
       players = [alice, bob]
 
-  aliceInventories <- submit bankUser do
+  aliceInventories <- submit alice do
     exerciseCmd bankContract CreateInventories with player = alice
 
-  bobInventories <- submit bankUser do
+  bobInventories <- submit bob do
     exerciseCmd bankContract CreateInventories with player = bob
 
-  alicePlot <- submit bankUser do
+  alicePlot <- submit alice do
     exerciseCmd bankContract CreatePlot with player = alice, diceValues = [6,8,9], resourceNames = ["lumber", "brick", "wool"]
 
-  submit bankUser do
+  submit bob do
     exerciseCmd bankContract CreatePlot with player = bob, diceValues = [6,8,9], resourceNames = ["lumber", "brick", "wool"]
 
-  submit bankUser do
-    exerciseCmd bankContract UpgradePlot with player = alice, plotId = alicePlot
+  -- submit bankUser do
+  --   exerciseCmd bankContract UpgradePlot with player = alice, plotId = alicePlot
 
 -- | Create a public party, then create three test users.
 setup : Script Parties

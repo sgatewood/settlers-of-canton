@@ -10,6 +10,7 @@ import UserList from './UserList';
 import PartyListEdit from './PartyListEdit';
 import ResourceList from './ResourceList';
 import PlotList from './PlotList';
+import DiceRoller from './DiceRoller';
 
 // USERS_BEGIN
 const MainView: React.FC = () => {
@@ -51,12 +52,12 @@ const MainView: React.FC = () => {
 
   return (
     <Container>
+      <Header as='h1' size='huge' color='blue' textAlign='center' style={{padding: '1ex 0em 0ex 0em'}}>
+                {myUserName ? 'SETTLERS OF CANTON' : 'Loading...'}
+            </Header>
       <Grid centered columns={2}>
         <Grid.Row stretched>
           <Grid.Column>
-            <Header as='h1' size='huge' color='blue' textAlign='center' style={{padding: '1ex 0em 0ex 0em'}}>
-                {myUserName ? 'SETTLERS OF CANTON' : 'Loading...'}
-            </Header>
             <Segment>
               <Header as='h2'>
                 <Header.Content>
@@ -74,6 +75,17 @@ const MainView: React.FC = () => {
               </Header>
               <Divider />
               <ResourceList />
+            </Segment>
+          </Grid.Column>
+          <Grid.Column>
+            <Segment>
+              <Header as='h2'>
+                <Header.Content>
+                  Controls
+                </Header.Content>
+              </Header>
+              <Divider />
+              <DiceRoller />
             </Segment>
           </Grid.Column>
         </Grid.Row>

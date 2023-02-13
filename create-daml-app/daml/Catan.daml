@@ -20,7 +20,7 @@ template Bank with
 
     nonconsuming choice CreateInventories: [ContractId Inventory] with
           player: Party
-        controller username
+        controller player
         do
           assertMsg "Player must be known by the bank" (elem player players)
           forA resourceTypes (
@@ -34,7 +34,7 @@ template Bank with
           player: Party
           diceValues: [Int]
           resourceNames: [Text]
-        controller username
+        controller player
         do
           assertMsg "Player must be known by the bank" (elem player players)
           create Plot with 
@@ -48,17 +48,17 @@ template Bank with
     nonconsuming choice UpgradePlot: (ContractId Inventory) with
           player: Party
           plotId: ContractId Plot
-        controller username
+        controller player
         do
           plot <- fetch plotId
           assertMsg "Player must be known by the bank" (elem player players)
-          (grainId, grain) <- fetchByKey @Inventory (username, player, "grain")
-          (oreId, ore) <- fetchByKey @Inventory (username, player, "ore")
+          (grainId, grain) <- fetchByKey @Inventory (player, "grain")
+          (oreId, ore) <- fetchByKey @Inventory (player, "ore")
           assertMsg "Not enough grain" (grain.number >= 2)
           assertMsg "Not enough ore" (grain.number >= 3)
           exercise plotId UpgradeWeight
-          exercise grainId SetNumber with newNumber = grain.number - 2
-          exercise oreId SetNumber with newNumber = grain.number - 3
+          exercise grainId ApplyDelta with delta = -2
+          exercise oreId ApplyDelta with delta = -3
 
 template Inventory with
     bank: Party
@@ -66,22 +66,22 @@ template Inventory with
     resourceName: Text
     number: Int
   where
-    signatory bank
+    signatory player
     observer player, bank
 
-    key (bank, player, resourceName): (Party, Party, Text)
+    key (player, resourceName): (Party, Text)
     maintainer key._1
 
-    nonconsuming choice SetNumber: (ContractId Inventory) with
-        newNumber: Int
-      controller bank
+    nonconsuming choice ApplyDelta: (ContractId Inventory) with
+        delta: Int
+      controller player
       do
         archive self
-        create this with number = newNumber
+        create this with number = number + delta
 
     nonconsuming choice TradeFourForOneOf: (ContractId Inventory) with
           destinationId: ContractId Inventory
-        controller bank
+        controller player
         do
           assertMsg "Must have at least 4 to trade" (number >= 4)
           destination <- fetch destinationId
