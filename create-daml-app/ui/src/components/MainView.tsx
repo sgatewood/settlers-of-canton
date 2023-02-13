@@ -9,7 +9,7 @@ import { publicContext, userContext } from './App';
 import ResourceList from './ResourceList';
 import PlotList from './PlotList';
 import DiceRoller from './DiceRoller';
-import PlotCreator from './PlotCreator';
+import PlotCreator from './SettlementCreator';
 import SettlementUpgrader from './SettlementUpgrader';
 import ResourceTrader from './ResourceTrader';
 

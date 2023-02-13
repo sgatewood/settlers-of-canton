@@ -27,7 +27,7 @@ function getRandInt(low: number, high: number): number {
 }
 
 function getRandomDiceValue(): number {
-    return getRandInt(1,6)
+    return getRandInt(1,12)
 }
 
 function getRandomResource(): string {
@@ -50,7 +50,7 @@ function getRandomResourceNames(): string[] {
     ]
 }
 
-const PlotCreator: React.FC = () => {
+const SettlementCreator: React.FC = () => {
   const sender = userContext.useParty();
   const bankResult = userContext.useQuery(Catan.Bank)
   const inventoryResult = userContext.useStreamQueries(Catan.Inventory);
@@ -95,4 +95,4 @@ const PlotCreator: React.FC = () => {
   );
 };
 
-export default PlotCreator;
+export default SettlementCreator;

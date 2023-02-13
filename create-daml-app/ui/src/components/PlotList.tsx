@@ -7,9 +7,16 @@ import Plot from './Plot';
 
 const PlotList: React.FC = () => {
   const plotResult = userContext.useStreamQueries(Catan.Plot);
+  
+  const totalVictoryPoints = plotResult.contracts.map(plot => plot.payload.weight).map(weight => parseInt(weight)).reduce((a, b) => a + b, 0)
 
   return (
     <List relaxed>
+        <ListItem
+        className='test-select-message-item'
+        key="score">
+        <strong>Victory points: {totalVictoryPoints}</strong>
+        </ListItem>
       {plotResult.contracts.map(plot => {
         const {diceValues, resourceNames, weight, index} = plot.payload;
         return (
