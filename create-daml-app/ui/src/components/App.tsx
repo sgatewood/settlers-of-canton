@@ -24,6 +24,14 @@ export const publicContext = isRunningOnHub()
   ? createLedgerContext()
   : userContext;
 
+export const resourceToIcon = new Map()
+
+resourceToIcon.set("lumber", "tree")
+resourceToIcon.set("brick", "block layout")
+resourceToIcon.set("wool", "cloudversify")
+resourceToIcon.set("grain", "food")
+resourceToIcon.set("ore", "fire")
+
 /**
  * React component for the entry point into the application.
  */

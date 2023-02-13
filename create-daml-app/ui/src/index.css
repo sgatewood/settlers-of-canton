@@ -15,7 +15,11 @@ code {
     monospace;
 }
 
-.resource-icon{
+.plot {
+  border: 3px dotted orange;
+}
+
+/* .resource-icon{
   float: left;
   padding-right: 5px;
-}
+} */

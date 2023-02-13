@@ -8,8 +8,8 @@ import { User } from '@daml.js/create-daml-app';
 import { publicContext, userContext } from './App';
 import UserList from './UserList';
 import PartyListEdit from './PartyListEdit';
-import MessageEdit from './MessageEdit';
 import ResourceList from './ResourceList';
+import PlotList from './PlotList';
 
 // USERS_BEGIN
 const MainView: React.FC = () => {
@@ -55,40 +55,16 @@ const MainView: React.FC = () => {
         <Grid.Row stretched>
           <Grid.Column>
             <Header as='h1' size='huge' color='blue' textAlign='center' style={{padding: '1ex 0em 0ex 0em'}}>
-                {myUserName ? `Welcome, ${myUserName}!` : 'Loading...'}
+                {myUserName ? 'SETTLERS OF CANTON' : 'Loading...'}
             </Header>
-
             <Segment>
               <Header as='h2'>
-                <Icon name='user' />
                 <Header.Content>
-                  {myUserName ?? 'Loading...'}
-                  <Header.Subheader>Users I'm following</Header.Subheader>
+                  Plots
                 </Header.Content>
               </Header>
               <Divider />
-              <PartyListEdit
-                parties={myUser?.following ?? []}
-                partyToAlias={partyToAlias}
-                onAddParty={follow}
-              />
-            </Segment>
-            <Segment>
-              <Header as='h2'>
-                <Icon name='globe' />
-                <Header.Content>
-                  The Network
-                  <Header.Subheader>My followers and users they are following</Header.Subheader>
-                </Header.Content>
-              </Header>
-              <Divider />
-              {/* USERLIST_BEGIN */}
-              <UserList
-                users={followers}
-                partyToAlias={partyToAlias}
-                onFollow={follow}
-              />
-              {/* USERLIST_END */}
+              <PlotList />
             </Segment>
             <Segment>
               <Header as='h2'>
