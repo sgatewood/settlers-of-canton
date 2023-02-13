@@ -69,7 +69,7 @@ template Bank with
           (grainId, grain) <- fetchByKey @Inventory (player, "grain")
           (oreId, ore) <- fetchByKey @Inventory (player, "ore")
           assertMsg "Not enough grain" (grain.number >= 2)
-          assertMsg "Not enough ore" (grain.number >= 3)
+          assertMsg "Not enough ore" (ore.number >= 3)
           exercise plotId UpgradeWeight
           exercise grainId ApplyDelta with delta = -2
           exercise oreId ApplyDelta with delta = -3
