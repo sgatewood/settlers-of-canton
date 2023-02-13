@@ -24,7 +24,7 @@ export declare const TestUser:
 export declare type Parties = {
   alice: damlTypes.Party;
   bob: damlTypes.Party;
-  charlie: damlTypes.Party;
+  bank: damlTypes.Party;
   public: damlTypes.Party;
 };
 

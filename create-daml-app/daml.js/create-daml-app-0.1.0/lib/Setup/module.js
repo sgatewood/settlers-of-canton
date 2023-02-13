@@ -30,12 +30,12 @@ exports.TestUser = {
 
 
 exports.Parties = {
-  decoder: damlTypes.lazyMemo(function () { return jtv.object({alice: damlTypes.Party.decoder, bob: damlTypes.Party.decoder, charlie: damlTypes.Party.decoder, public: damlTypes.Party.decoder, }); }),
+  decoder: damlTypes.lazyMemo(function () { return jtv.object({alice: damlTypes.Party.decoder, bob: damlTypes.Party.decoder, bank: damlTypes.Party.decoder, public: damlTypes.Party.decoder, }); }),
   encode: function (__typed__) {
   return {
     alice: damlTypes.Party.encode(__typed__.alice),
     bob: damlTypes.Party.encode(__typed__.bob),
-    charlie: damlTypes.Party.encode(__typed__.charlie),
+    bank: damlTypes.Party.encode(__typed__.bank),
     public: damlTypes.Party.encode(__typed__.public),
   };
 }

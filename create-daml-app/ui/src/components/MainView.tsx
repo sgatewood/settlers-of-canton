@@ -9,7 +9,7 @@ import { publicContext, userContext } from './App';
 import UserList from './UserList';
 import PartyListEdit from './PartyListEdit';
 import MessageEdit from './MessageEdit';
-import MessageList from './MessageList';
+import ResourceList from './ResourceList';
 
 // USERS_BEGIN
 const MainView: React.FC = () => {
@@ -92,18 +92,12 @@ const MainView: React.FC = () => {
             </Segment>
             <Segment>
               <Header as='h2'>
-                <Icon name='pencil square' />
                 <Header.Content>
-                  Messages
-                  <Header.Subheader>Send a message to a follower</Header.Subheader>
+                  Resources
                 </Header.Content>
               </Header>
-              <MessageEdit
-                followers={followers.map(follower => follower.username)}
-                partyToAlias={partyToAlias}
-              />
               <Divider />
-              <MessageList partyToAlias={partyToAlias}/>
+              <ResourceList />
             </Segment>
           </Grid.Column>
         </Grid.Row>
