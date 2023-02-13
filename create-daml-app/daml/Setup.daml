@@ -3,13 +3,14 @@ module Setup where
 import DA.Optional (fromSomeNote)
 import qualified DA.Text as T
 import Daml.Script
+import Catan
 
 -- | A record containing all the parties that we will use in our script
 data Parties = Parties
   with
     alice : Party
     bob : Party
-    charlie: Party
+    bank: Party
     public: Party
 
 -- | A test user for the create-daml-app network.
@@ -22,21 +23,42 @@ data TestUser = TestUser with
 
 defaultParticipant : Optional ParticipantName
 defaultParticipant = None
--- | Create a public party, then create three test users.
 
+setupCatan : Party -> Party -> Party -> Script (ContractId Inventory)
+setupCatan bankUser alice bob = script do
+
+  bankContract <- submit bankUser do
+    createCmd Bank with
+      username = bankUser
+      players = [alice, bob]
+
+  aliceInventories <- submit bankUser do
+    exerciseCmd bankContract CreateInventories with player = alice
+
+  bobInventories <- submit bankUser do
+    exerciseCmd bankContract CreateInventories with player = bob
+
+  alicePlot <- submit bankUser do
+    exerciseCmd bankContract CreatePlot with player = alice, diceValues = [6,8,9], resourceNames = ["lumber", "bricks", "wool"]
+
+  submit bankUser do
+    exerciseCmd bankContract CreatePlot with player = bob, diceValues = [6,8,9], resourceNames = ["lumber", "bricks", "wool"]
+
+  submit bankUser do
+    exerciseCmd bankContract UpgradePlot with player = alice, plotId = alicePlot
+
+-- | Create a public party, then create three test users.
 setup : Script Parties
 setup = do
   public <- createPublic defaultParticipant
-  -- In the getting started guide, we only have one participant so we set the participant name to None.
-  -- If you are running this against a ledger with multiple participants, specify the participant the parties
-  -- should be hosted on.
   alice <- createTestUser $ TestUser "Alice" public defaultParticipant
   bob <- createTestUser $ TestUser "Bob" public defaultParticipant
-  charlie <- createTestUser $ TestUser "Charlie" public defaultParticipant
+  bank <- createTestUser $ TestUser "bank" public defaultParticipant
+  setupCatan bank alice bob
   pure $ Parties with
     alice
     bob
-    charlie
+    bank
     public
 
 -- | Create a test user.
