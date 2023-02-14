@@ -20,7 +20,7 @@ function getRandInt(low: number, high: number): number {
 }
 
 function getRandomDiceValue(): number {
-    return getRandInt(1,12)
+    return getRandInt(2,12)
 }
 
 function getRandomResource(): string {
