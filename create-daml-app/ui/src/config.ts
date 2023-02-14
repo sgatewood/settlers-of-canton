@@ -89,5 +89,4 @@ export const insecure: Insecure = (() => {
   };
 })();
 
-export const authConfig: Authentication = (() =>
-  isRunningOnHub() ? damlHub : insecure)();
+export const authConfig: Authentication = insecure;
