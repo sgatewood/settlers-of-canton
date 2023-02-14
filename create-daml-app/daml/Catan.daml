@@ -1,7 +1,5 @@
 module Catan where
 
-import DA.List
-
 settlementRequirements: [Text] = [
   "lumber",
   "brick",
@@ -17,8 +15,12 @@ resourceTypes: [Text] = [
   "ore"
   ]
 
-applyDeltaToInventory: InventoryKey -> Int -> Update (ContractId Inventory)
-applyDeltaToInventory inventoryKey delta = do
+type InventoryUpdate = (InventoryKey, Int)
+
+applyInventoryUpdate: InventoryUpdate -> Update (ContractId Inventory)
+applyInventoryUpdate inventoryUpdate = do
+  let inventoryKey = inventoryUpdate._1
+  let delta = inventoryUpdate._2
   (resourceId, resource) <- fetchByKey @Inventory inventoryKey
   exercise resourceId ApplyDelta with delta = delta
 
@@ -33,15 +35,13 @@ template Bank with
     maintainer key
 
     -- Optimization: Batch all the dice awards into one daml call
-    nonconsuming choice ApplyDeltasToInventories: [ContractId Inventory] with
+    nonconsuming choice ApplyInventoryUpdates: [ContractId Inventory] with
           player: Party
-          indices: [Int] -- Js helping me iterate over 2 things :p
-          inventoryKeys: [InventoryKey]
-          deltas: [Int]
+          inventoryUpdates: [InventoryUpdate]
         controller player
         do
           assertMsg "Player must be known by the bank" (elem player players)
-          forA indices (\i -> applyDeltaToInventory (inventoryKeys!!i) (deltas!!i))
+          forA inventoryUpdates applyInventoryUpdate
 
     nonconsuming choice CreateInventories: [ContractId Inventory] with
           player: Party

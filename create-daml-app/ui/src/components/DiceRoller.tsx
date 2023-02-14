@@ -76,11 +76,13 @@ const DiceRoller: React.FC = () => {
       
       const bankUsername = bankResult.contracts[0].payload.username 
 
-      await ledger.exerciseByKey(Catan.Bank.ApplyDeltasToInventories, bankUsername, {
+
+      await ledger.exerciseByKey(Catan.Bank.ApplyInventoryUpdates, bankUsername, {
         player: sender,
-        indices: awards.map((e, i) => i.toString()),
-        inventoryKeys: awards.map(award => getInventoryKeyFor(sender, award.resourceName)),
-        deltas: awards.map(award => award.number.toString())
+        inventoryUpdates: awards.map(award => ({
+          _1: getInventoryKeyFor(sender, award.resourceName),
+          _2: award.number.toString()
+        }))
       });
     } catch (error) {
       alert(`Could not roll dice:\n${JSON.stringify(error)}`);
