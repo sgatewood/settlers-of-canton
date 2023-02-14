@@ -60,6 +60,9 @@ const DiceRoller: React.FC = () => {
   const [isSubmitting, setIsSubmitting] = React.useState(false);
   const [lastRollDescription, setLastRollDescription] = React.useState("");
   const ledger = userContext.useLedger();
+  const bankResult = userContext.useQuery(Catan.Bank)
+
+  const bankReady = bankResult.contracts.length > 0
 
   const rollDice = async (event: React.FormEvent) => {
     try {
@@ -71,11 +74,14 @@ const DiceRoller: React.FC = () => {
       const awardDescription = awards.length === 0 ? "nothing" : awards.map(describeAward)
       setLastRollDescription(`Rolled ${rollValue} -- Got ${awardDescription}`)
       
-      for (var i = 0; i < awards.length; i++) {
-        const award = awards[i]
-        const inventoryKey = getInventoryKeyFor(sender, award.resourceName)
-        await ledger.exerciseByKey(Catan.Inventory.ApplyDelta, inventoryKey, {delta: award.number.toString()});
-      }
+      const bankUsername = bankResult.contracts[0].payload.username 
+
+      await ledger.exerciseByKey(Catan.Bank.ApplyDeltasToInventories, bankUsername, {
+        player: sender,
+        indices: awards.map((e, i) => i.toString()),
+        inventoryKeys: awards.map(award => getInventoryKeyFor(sender, award.resourceName)),
+        deltas: awards.map(award => award.number.toString())
+      });
     } catch (error) {
       alert(`Could not roll dice:\n${JSON.stringify(error)}`);
     } finally {
@@ -91,7 +97,7 @@ const DiceRoller: React.FC = () => {
         className='test-select-message-send-button'
         type="submit"
         disabled={isSubmitting}
-        loading={isSubmitting}
+        loading={!bankReady || isSubmitting}
         content="Roll Dice"
       />
     </Form>
